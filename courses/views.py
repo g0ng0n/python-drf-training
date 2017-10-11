@@ -1,5 +1,4 @@
-from django.shortcuts import render
-
+from rest_framework import generics
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -20,3 +19,11 @@ class ListCreateCourse(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class ListCreateCourse2(generics.ListCreateAPIView):
+    queryset = models.Course.objects.all()
+    serializer_class = serializers.CourseSerializer
+
+class RetrieveUpdateDestroyCourse(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Course.objects.all()
+    serializer_class = serializers.CourseSerializer
