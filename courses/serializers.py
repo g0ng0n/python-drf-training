@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from . import models
 
+
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         extra_kwargs = {
@@ -11,7 +12,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             'course',
             'name',
             'email',
-            'review',
+            'comment',
             'rating',
             'create_at'
         )
@@ -19,10 +20,14 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
+    reviews = serializers.HyperlinkedRelatedField(many=True, read_only=True,
+                                                  view_name='apiv2:review-detail')
+
     class Meta:
         fields = (
             'id',
             'title',
-            'url'
+            'url',
+            'reviews',
         )
         model = models.Course
